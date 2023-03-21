@@ -31,6 +31,7 @@
 		<UpToDateCheckInput Include="..\Uno.Resizetizer.Sample.Shared\**\*.xaml" />
 	</ItemGroup>
 	<ItemGroup>
+		<EmbeddedResource Include="..\Uno.Resizetizer.Sample.Windows\Package.appxmanifest" LogicalName="Package.appxmanifest" />
 		<Content Include="Assets\Fonts\uno-fluentui-assets.ttf" />
 	</ItemGroup>
 	<Import Project="..\Uno.Resizetizer.Sample.Shared\Uno.Resizetizer.Sample.Shared.projitems" Label="Shared" />
