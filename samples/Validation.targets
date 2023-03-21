@@ -51,4 +51,33 @@
 		<Error Condition="!Exists('$(_ResizetizerAppIconContentsPath)')" Text="Contents.json file wasn't created." />
 		<Error Condition="!Exists('$(_ResizetizerAppIconImagesPath)')" Text="App icon image file wasn't created." />
 	</Target>
+
+    <!-- wasm -->
+    <Target Name="ValidateTransientLocalAssetsForWasm" AfterTargets="Build" Condition="'$(UnoRuntimeIdentifier)'=='WebAssembly'">
+		<PropertyGroup>
+			<_ResizetizerManifestPath>$(_UnoIntermediateAppManifestWasm)</_ResizetizerManifestPath>
+			<_ResizetizerSplashScreenPath>$(_UnoIntermediateImages)splash_screen.scale-300.png</_ResizetizerSplashScreenPath>
+			<_ResizetizerAppIconPath>$(_UnoIntermediateAppIcon)favicon.ico</_ResizetizerAppIconPath>
+			<_ResizetizerAppIconImagesPath>$(_UnoIntermediateAppIcon)iconapp-128.png</_ResizetizerAppIconImagesPath>
+			<_ResizetizerUnoManifestJson>$(_UnoIntermediateAppIcon)Unomanifest.json</_ResizetizerUnoManifestJson>
+			<_ResizetizerUnoManifestWeb>$(_UnoIntermediateAppIcon)Unomanifest.webmanifest</_ResizetizerUnoManifestWeb>
+		</PropertyGroup>
+
+        <PropertyGroup>
+            <_HasUnoManifestJson>false</_HasUnoManifestJson>
+            <_HasUnoManifestWebmanifest>false</_HasUnoManifestWebmanifest>
+            <_HasUnoManifest>false</_HasUnoManifest>
+
+            <_HasUnoManifestJson Condition="Exists('$(_ResizetizerUnoManifestJson)')">true</_HasUnoManifestJson>
+            <_HasUnoManifestWebmanifest Condition="Exists('$(_ResizetizerUnoManifestWeb)')">true</_HasUnoManifestWebmanifest>
+            <_HasUnoManifest Condition="'$(_HasUnoManifestJson)' == 'true' Or '$(_HasUnoManifestWebmanifest)' == 'true'">true</_HasUnoManifest>
+        </PropertyGroup>
+		<Message Text="Validating local assets at '$(_ResizetizerIntermediateOutputRoot)'" Importance="high" />
+
+		<Error Condition="!Exists('$(_ResizetizerManifestPath)')" Text="Manifest file wasn't created." />
+		<Error Condition="!Exists('$(_ResizetizerSplashScreenPath)')" Text="SplashScreen file wasn't created." />
+		<Error Condition="!Exists('$(_ResizetizerAppIconPath)')" Text=".ico file wasn't created." />
+		<Error Condition="!Exists('$(_ResizetizerAppIconImagesPath)')" Text="App icon image file wasn't created." />
+		<Error Condition="'$(_HasUnoManifest)' != 'true'" Text="Unomanifest file wasn't created." />
+	</Target>
 </Project>
